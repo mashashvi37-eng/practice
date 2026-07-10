@@ -1,0 +1,48 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    int n, m;
+    cin >> n >> m;
+    vector<string> arr(n);
+    for (int i=0;i<n;i++) {
+        cin >> arr[i];
+    }
+    vector<string> result = arr;
+    vector<vector<bool>> visited(n, vector<bool>(m, false));
+    queue<tuple<int, int, char>> q;
+    
+    int dx[] = {-1, 1, 0, 0};
+    int dy[] = {0, 0, -1, 1};
+    for (int i=0;i<n;i++) {
+        for (int j=0;j<m;j++) {
+            if (arr[i][j] != '#' && arr[i][j] != '.') {
+                visited[i][j] = true;
+                q.push({i, j, arr[i][j]});
+            }
+        }
+    }
+    
+    while (!q.empty()) {
+        auto [x, y, capital] = q.front();
+        q.pop();
+        
+        result[x][y] = capital;
+        
+        for (int i=0;i<4;i++) {
+            int nx = x+ dx[i];
+            int ny = y+dy[i];
+            
+            if (nx >= 0 && nx < n && ny >= 0 && ny < m &&
+                !visited[nx][ny] && arr[nx][ny] == '.') {
+                visited[nx][ny] = true;
+                q.push({nx, ny, capital});
+            }
+        }
+    }
+    for (int i =0;i<n;i++) {
+        cout << result[i] << "\n";
+    }
+}
