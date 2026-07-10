@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+const ll mod = 1000000007;
+struct Cloud {
+    long long x1, y1, x2, y2;
+};
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    ll n;
+    cin >> n;
+    vector<Cloud> clouds(n);
+    for (ll i=0;i<n;i++) {
+        cin >> clouds[i].x1 >> clouds[i].y1 >> clouds[i].x2 >> clouds[i].y2;
+        if (clouds[i].x1 > clouds[i].x2) swap(clouds[i].x1, clouds[i].x2);
+        if (clouds[i].y1 > clouds[i].y2) swap(clouds[i].y1, clouds[i].y2);
+    }
+    ll m;
+    cin >> m;
+    vector<ll> sx(m + 1, 0), sy(m + 1, 0);
+    for (ll i=1; i<=m;i++) {
+        ll dx, dy;
+        cin >> dx >> dy;
+        sx[i] = sx[i-1] +dx;
+        sy[i] = sy[i-1] + dy;
+    } 
+    ll q;
+    cin >> q;
+    while (q--) {
+        ll x0,y0;
+        ll t0;
+        cin >> x0 >> y0 >> t0;
+        ll tx= x0 -sx[t0];
+        ll ty=y0- sy[t0];
+        
+        bool found = false;
+        for (const auto& cloud : clouds) {
+            if (tx >= cloud.x1 && tx <= cloud.x2 &&
+                ty >= cloud.y1 && ty <= cloud.y2) {
+                found = true;
+                break;
+            }
+        }
+        cout << (found ? "YES":"NO") << "\n";
+    }
+}
