@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+const ll mod = 1000000007;
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    ll n, m, k;
+    cin >> n >> m >> k;
+    vector<vector<bool>> dan(n+1, vector<bool>(m+1, false));
+
+    while (k--) {
+        ll x,y;
+        cin >> x >> y;
+        dan[x][y] = true;
+    }
+
+    vector< vector<ll>> d(n+1,vector<ll>(m+1,0));
+    d[0][0] = 1;
+
+    for (ll i = 0; i<=n; i++){
+        for (ll j =0; j<=m; j++) {
+            if (dan[i][j]) {
+                d[i][j] = 0;
+                continue;
+            }
+            if (i==0 && j==0) {
+                continue;
+            }
+            if (i > 0) {
+                d[i][j] = (d[i][j] + d[i-1][j]) %mod;
+            } 
+            if (j>0) {
+                d[i][j] = (d[i][j] + d[i][j-1])%mod;
+            }
+        }
+    }
+    cout << d[n][m] << "\n";
+    
+}
