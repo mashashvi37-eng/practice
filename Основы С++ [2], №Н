@@ -1,0 +1,34 @@
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+
+int main() {
+    ios::sync_with_stdio(0);
+    cin.tie(0);
+    int n;
+    ll s;
+    cin >> n >> s;
+    vector<ll> w(n);
+    for (int i = 0; i < n; i++) cin >> w[i];
+    sort(w.begin(), w.end());
+    if (s == 1 || n == 1) {
+        cout << '1';
+        return 0;
+    }
+    ll answer = 2, cnt = 0, cnt1 = 0, cnt2 = 0;
+    for (int i = 0; i < n - 2; i++) {
+        cnt += w[i] / 3;
+        if (w[i] % 3 == 1) cnt1++;
+        if (w[i] % 3 == 2) cnt2++;
+        if (cnt1 > 0 && cnt2 > 0) {
+            cnt1--;
+            cnt2--;
+            cnt++;
+        } 
+        if (cnt + cnt1 / 2 + cnt1 % 2 + cnt2 <= s - 2) answer++;
+        else break;
+    }
+ 
+    cout << answer << "\n";
+    return 0;
+}
